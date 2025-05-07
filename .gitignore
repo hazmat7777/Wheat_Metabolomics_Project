@@ -2,3 +2,5 @@
 *.tmp
 sandbox/*
 results/*
+data/*
+references/*
