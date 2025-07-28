@@ -1,4 +1,5 @@
 # phyloseq object from simple meta pipeline
+# this time from all 16S sequences
 # here- filtering taxa and samples, and visualising composition
 
 # load dependencies
@@ -14,33 +15,55 @@ library(dplyr)
 library(tibble)
 
 #load data
-ps_project <- readRDS("../data/ps_farmkits.rds")
+ps_16S <- readRDS("../data/metabarcoding/all_farmkits_16S_ps_project.rds")
 
-ps_project 
+ps_16S
+
+View(tax_table(ps_16S))
+
+# load tax table
+tax_table(ps_16S) <- read.csv("../results/ESV_tax_table.csv", row.names = 1, header = TRUE) %>%
+    as.matrix() %>%
+    tax_table()
+
+View(tax_table(ps_16S))
 
 ## PREPROCESSING
 
+# what to filter
+tax_data <- as.data.frame(tax_table(ps_16S))
+
+unique(tax_data$Kingdom)
+unique(tax_data$Phylum)
+unique(tax_data$Class)
+sort(unique(tax_data$Order))
+sort(unique(tax_data$Family))
+
 # filter out unclassified taxa, mitochondria and chloroplasts
 
-ps_project2 <- ps_project %>%
-    phyloseq::subset_taxa(order != "unclassified_Cyanobacteriia") %>% 
-    phyloseq::subset_taxa(class != "unclassified_Cyanobacteria") %>%  
-    phyloseq::subset_taxa(phylum != "unclassified_Bacteria") %>%
-    phyloseq::subset_taxa(domain != "unclassified_Root") %>% 
-    phyloseq::subset_taxa(domain != "Eukaryota") %>% # only proks
-    phyloseq::subset_taxa(order != "Chloroplast") %>% # only interested in bacterial microbiome here
-    phyloseq::subset_taxa(family != "Mitochondria") # not organelles
+ps_project2 <- ps_16S %>%
+    phyloseq::subset_taxa(Order != "Incertae Sedis") %>% 
+    phyloseq::subset_taxa(Class != "Incertae Sedis") %>%  
+    phyloseq::subset_taxa(Phylum != "unclassified_Bacteria") %>%
+    phyloseq::subset_taxa(Kingdom != "Eukaryota") %>% # only proks
+    phyloseq::subset_taxa(Order != "Chloroplast") %>% # only interested in bacterial microbiome here
+    phyloseq::subset_taxa(Family != "Mitochondria") # not organelles
+
+ps_16S
+ps_project2
 
 # filter out OTUs with no hits on any sample
 ps_project2 <- prune_taxa(taxa_sums(ps_project2) > 0, ps_project2) #removes missing taxa
+
 ps_project2 <- prune_samples(sample_sums(ps_project2) > 0, ps_project2) # removes empty samples
 
-ps_project
-ps_project2 # 5k taxa and 1 sample got filtered
+# Check the counts of taxa remaining after filtering
+dim(tax_table(ps_project2))
+dim(otu_table(ps_project2))
 
-# # did it work
-# View(tax_table(ps_project2))
+ps_project2 # 2 samples got filtered (not sure what went wrong with them!)
 
+empty_samples <- setdiff(sample_names(ps_16S), sample_names(ps_project2)) # check which samples were removed
 
 # transform to relative abundance using a custom fn
 ps_project3 <- transform_sample_counts(ps_project2,
@@ -80,93 +103,57 @@ taxa_names(ps_project5)[merged_index] <- "Rare_taxa"
 "Rare_taxa" %in% taxa_names(ps_project5)  # TRUE, means rename was successful
 
 # change the taxonomic table entries for the merged group
-tax_table(ps_project5)["Rare_taxa", c("domain", "phylum", "class", "order", "family", "genus")] <- "Other"
+tax_table(ps_project5)["Rare_taxa", c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species")] <- "Other"
 
 # change to relative rather than absolute abundance
 ps_project6 <- transform_sample_counts(ps_project5,
     function(x) x / sum(x)) # first transform to relative abundance using a custom fn
 
-# # check it worked
-# sum(is.na(otu_table(ps_project6)))
-# sum(is.nan(otu_table(ps_project6)))
-# sum(is.infinite(otu_table(ps_project6)))
 
-# # MAKE A NEW BINARY VARIABLE- HUMAN
-# sample_data(GP)$human = factor( get_variable(GP, "SampleType") %in% c("Feces", "Mock", "Skin", "Tongue") )
+# graphics
+plot_bar(ps_project2, fill = "Phylum") # all taxa, showing absolute abundance
+plot_bar(ps_project4, fill = "Phylum") # no rare taxa, showing absolute abundance
+    # a bit weird that most of the rare taxa are found in one plate of samples
+plot_bar(ps_project5, fill = "Phylum") # rare taxa merged (other), showing absolute abundance
+plot_bar(ps_project6, fill = "Phylum") # rare taxa merged (other), showing relative abundance
+plot_bar(ps_project6, fill = "Class") # rare taxa merged (other), showing relative abundance
+plot_bar(ps_project6, fill = "Family") # rare taxa merged (other), showing relative abundance
+plot_bar(ps_project2, fill = "Class") # all taxa, showing absolute abundance
+plot_bar(ps_project2, fill = "Family") # all taxa, showing absolute abundance
 
-## TAXA TABLE
-taxa_names(ps_project6)
+# filtering out samples with too low diversity
 
-rank_names(ps_project6) # same as:  colnames(tax_table(ps_project2))
+richness_df <- estimate_richness(ps_project2, measures = c("Observed", "Shannon", "Simpson"))
+saveRDS(richness_df, file = "../data/all_16s_richness_df.rds")
 
-View(tax_table(ps_project6))
+View(otu_table(ps_project2))
+
+View(richness_df)
+
+##################################################
 
 
-## ENVIRONMENTAL SAMPLE DATA
-sample_names(ps_project6)
-view(sampledata)
-    # need to ask how paidabg is cleaning it
+# filter out low richness samples
+ps_16S_highdiv_absolute <- prune_samples(richness_df$Observed > 6, ps_project2) # keep samples with more than 6 observed taxa
+    # when I filtered >5,  one point with richness 6 messed it up
+    # will need to justify this filtering step in the report
 
-# ****** sample data doesnt have sampleID or plate ********
-# ****** sample data are messy from farmers- clean on env_datawrang *********
-    # leave it for now
+ps_16S_highdiv_relative <- prune_samples(richness_df$Observed > 6, ps_project3)
+ps_16S_highdiv_absolute
+ps_16S_highdiv_relative
 
-## TREE
-phy_tree(ps_project4) # empty
-
-# SEQUENCES
-refseq(ps_project4)
-    # actual nucleotide sequence of each OTU/ASV
-
-### GRAPHICS
-
-## Bar plot
-plot_bar(ps_project5, fill = "class") 
-
-plot_bar(ps_project6, fill = "class")
-    # useful to see that some samples lost more species than others. NEED TO MAKE AN OTHER GROUP!
-    # note that abundance is now a proportion- is that good?
-    # 1024:1033 is ALL NAs!
-
-plot_bar(ps_project4, fill = "phylum") # maybe omit taxa which are fewer than a threshold
-plot_bar(ps_project5, fill = "phylum") # maybe omit taxa which are fewer than a threshold
-plot_bar(ps_project6, fill = "phylum") # maybe omit taxa which are fewer than a threshold
-plot_bar(ps_project6, fill = "class") # maybe omit taxa which are fewer than a threshold
-plot_bar(ps_project6, fill = "family") # maybe omit taxa which are fewer than a threshold
-
-# samples to remove based on these plots:
-
-    # 1008- 1044
-    # 1005- 1044 small abundance one class
-    #1020-1096 all one class
-    # 3  1020 - 035 xxxxxxxxxxx
-    #1005-1110 and 1007-1045 all one class
-
-# I removed samples manually, maybe could automate this by 
-    # grouping by sample
-    # 
-
-sample_names(ps_project6)
-
-samples_to_keep <- sample_names(ps_project6)[-c(6, 11, 14, 25, 32, 40)] # did this manually
-
-ps_project7 <- prune_samples(samples_to_keep, ps_project5)
-ps_project7
-
-ps_project8 <- prune_samples(samples_to_keep, ps_project6)
-ps_project8
 
 ########### CHECKPOINT ###########
 
 # save filtered objects
-saveRDS(ps_project7, file = "../data/ps_project7.rds")
-saveRDS(ps_project8, file = "../data/ps_project8.rds")
-saveRDS(ps_project2, file = "../data/ps_project2.rds")
+# saveRDS(ps_project7, file = "../data/ps_project7.rds")
+# saveRDS(ps_project8, file = "../data/ps_project8.rds")
+# saveRDS(ps_project2, file = "../data/ps_project2.rds")
 
 # load em
-ps_project7 <- readRDS("../data/ps_project7.rds")
-ps_project8 <- readRDS("../data/ps_project8.rds")
-ps_project2 <- readRDS("../data/ps_project2.rds")
+# ps_project7 <- readRDS("../data/ps_project7.rds")
+# ps_project8 <- readRDS("../data/ps_project8.rds")
+# ps_project2 <- readRDS("../data/ps_project2.rds")
 
 
 #################################
@@ -308,8 +295,8 @@ library(ggplot2)
 
 # removing low richness samples
 # load em
-ps_project7 <- readRDS("../data/metabarcoding/ps_project7.rds")
-ps_project8 <- readRDS("../data/metabarcoding/ps_project8.rds")
+ps_project7 <- readRDS("../data/ps_project7.rds")
+ps_project8 <- readRDS("../data/ps_project8.rds")
 
 # merge richness data into sample data of ps_project7 and ps_project8
 sample_data(ps_project7)$Observed_richness <- richness_df$Observed
