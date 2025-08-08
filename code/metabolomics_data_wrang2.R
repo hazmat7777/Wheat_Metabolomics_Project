@@ -47,15 +47,22 @@ gt_t <- gt_t %>%
   select(Metabolite.name, everything()) %>%  # Move it to the front
   select(-`fk243`, -`fk207`)  # Remove the 2 farmkits that don't have GT data
 
+View(gt_t)
+
 # convert character columns to numeric in gt_t
 gt_t[] <- lapply(gt_t, function(x) if(is.character(x)) as.numeric(x) else x)
 
 # add the GT data to the bottom of the metabolomics data
 fk_metabolom_gt <- bind_rows(df_fk, as.data.frame(gt_t)) # bind the GT data to the metabolomics data
 
-View((fk_metabolom_gt))
+# filter columns for which there are NA values
+fk_metabolom_gt_noNA <- fk_metabolom_gt[, c(TRUE, colSums(is.na(fk_metabolom_gt[, -1])) == 0)]
 
-saveRDS(fk_metabolom_gt, "../data/fk_metabolomics_gt.RDS") # save the combined data
+View(fk_metabolom_gt_noNA)
+View(fk_metabolom_gt[nrow(fk_metabolom_gt),])
+
+
+saveRDS(fk_metabolom_gt_noNA, "../data/fk_metabolomics_gt_noNA.RDS") # save the combined data
 
 
 

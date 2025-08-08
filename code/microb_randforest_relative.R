@@ -5,11 +5,11 @@ library(dplyr)
 
 # load microbial metabarcoding data
 
-ps_16S_highdiv_absolute <- readRDS("../data/ps_16S_highdiv_absolute.rds")
+ps_16S_highdiv_relative <- readRDS("../data/ps_16S_highdiv_relative.rds")
 
-sample_names(ps_16S_highdiv_absolute)
+sample_names(ps_16S_highdiv_relative)
 
-ps_16S_rf <- prune_samples(!is.na(sample_data(ps_16S_highdiv_absolute)$gt), ps_16S_highdiv_absolute) # remove samples without GT data
+ps_16S_rf <- prune_samples(!is.na(sample_data(ps_16S_highdiv_relative)$gt), ps_16S_highdiv_relative) # remove samples without GT data
 ps_16S_rf <- prune_taxa(taxa_sums(ps_16S_rf) > 0, ps_16S_rf) #removes missing taxa
 
 ps_16S_rf
@@ -166,7 +166,10 @@ for (rank in taxonomic_ranks) {
 }
 
 saveRDS(rf_models, file = "../results/microb_rf_oob_error")
+
 rf_models
+
+# models are at each taxonomic level
 
 # ===== COMPARE MODELS =====
 
@@ -188,49 +191,3 @@ barplot(model_comparison$OOB_Error,
         ylab = "OOB Error Rate (%)",
         las = 2)
 
-# ===== FEATURE IMPORTANCE =====
-
-# Function to get top important features
-get_top_features <- function(rf_model, n_features = 10) {
-  importance_scores <- importance(rf_model)
-  
-  # For classification, use MeanDecreaseAccuracy
-  imp_col <- "MeanDecreaseAccuracy"
-  
-  top_features <- head(
-    importance_scores[order(importance_scores[, imp_col], decreasing = TRUE), ],
-    n_features
-  )
-  
-  return(top_features)
-}
-
-# PLOT top 5 features for each model
-cat("\nTop 10 important features for each approach:\n")
-for (model_name in names(rf_models)) {
-  cat("\n", model_name, ":\n")
-  top_feat <- get_top_features(rf_models[[model_name]])
-  print(top_feat)
-}
-
-top_order_features <- row.names(get_top_features(rf_models[[3]]))
-top_order_features
-order_glom<- (as.data.frame(aggregated_data[3]))
-order_glom$gt <- as.factor(as.data.frame(sample_data(ps_16S_rf))$gt) # check order didnt change
-
-View(order_glom)
-library(ggplot2)
-
-for (microbe in top_order_features) { # dont forget to set counter
-    counter <- counter + 1
-    microbe <- paste0("Order.",microbe)
-    plot <- ggplot(order_glom, aes(y = gt, x = .data[[microbe]])) +
-        geom_boxplot() +
-        labs(x = "GT Status", y = paste("Distribution of", microbe)) +
-        theme_bw()
-    
-    ggsave(filename = paste0("../results/plots/microb_", counter, "_vs_gt.png"), plot = plot, width = 8, height = 6)
-    if(counter == 5){
-        counter <- 0
-    }
-}

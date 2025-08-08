@@ -1,0 +1,17 @@
+====================================
+=== THIS MESSAGE IS NOT AN ERROR ===
+
+You are loading blast+/2.11.1
+Please consider moving to our newer cluster - CX3 Phase 2
+as there will be either the same or a newer version of the software available
+
+More info can be found here:
+https://icl-rcs-user-guide.readthedocs.io/en/latest/hpc/pilot/cx3-phase2/
+https://icl-rcs-user-guide.readthedocs.io/en/latest/hpc/pilot/cx3-phase2/#python-and-conda-environments
+
+====================================
+
+
+Loading blast+/2.11.1
+  Loading requirement: intel-suite/2019.4
+=>> PBS: job killed: ncpus 14.90 exceeded limit 4 (sum)

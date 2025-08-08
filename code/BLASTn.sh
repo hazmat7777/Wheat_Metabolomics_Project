@@ -2,6 +2,9 @@
 #PBS -l select=1:ncpus=16:mem=8gb
 #PBS -l walltime=48:00:00
 
+#(how many fasta files do I have?)
+grep -c ">" "../data/BLAST/query_seqs/farmkit_ESV_sequences.fasta"
+
 # Move to the directory where the job was submitted
 cd $PBS_O_WORKDIR
 

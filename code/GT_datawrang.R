@@ -1,8 +1,13 @@
-install.packages("openxlsx")
+# ADDING GT VARIABLE TO THE SAMPLE DATA OF PHYLOSEQ OBJECT
+
+# install.packages("openxlsx")
 library(openxlsx)  # Reading data from Excel files
 library(dplyr)    # Data manipulation
-install.packages("readODS")
+# install.packages("readODS")
 library(readODS)
+
+
+
 
 # load farmkits data
 farmkits = read.xlsx("../data/GreenMicrobiome_FarmKits_EnvData_Harry.xlsx", sheet = 1)
@@ -16,7 +21,7 @@ View(farmkits)
 # load the GT data
 gt <- read_ods("../data/baiting_farmkits.ods", sheet = 1) %>%
     as_tibble() %>%
-    select(sample_name, gt)
+    select(sample_name, gt_yn)
 
 gt$sample_name <- as.character(gt$sample_name)
 

@@ -1,0 +1,5 @@
+"Model","Accuracy","Kappa","Best_Threshold"
+"ElasticNet",0.667,0.329,0.3
+"Ensemble",0.619,0.236,0.3
+"RandomForest",0.571,0.129,0.3
+"GBM",0.476,-0.055,0.3

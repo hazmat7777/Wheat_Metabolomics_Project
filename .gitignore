@@ -1,6 +1,6 @@
 *~
 *.tmp
 sandbox/*
-#results/*
+#results/* # maybe I should keep picrust objects off git
 data/*
 references/*
