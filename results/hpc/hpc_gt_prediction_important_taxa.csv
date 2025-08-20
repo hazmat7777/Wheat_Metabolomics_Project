@@ -1,0 +1,51 @@
+feature,importance,Phylum,Class,Order,Family,Genus
+ESV_10,-8.239299830604172e-4,Pseudomonadota,Alphaproteobacteria,Hyphomicrobiales,Methyloligellaceae,Incertae Sedis
+ESV_100,0,Bacillota,Bacilli,Bacillales,Bacillaceae,Niallia
+ESV_1000,0,Pseudomonadota,Alphaproteobacteria,Hyphomicrobiales,Xanthobacteraceae,Incertae Sedis
+ESV_100076,0,Bacteroidota,Bacteroidia,Bacteroidales,Bacteroidaceae,Bacteroides
+ESV_100078,0,Pseudomonadota,Alphaproteobacteria,Hyphomicrobiales,Xanthobacteraceae,Bradyrhizobium
+ESV_100134,0,Actinomycetota,Actinobacteria,Micrococcales,Micrococcaceae,Pseudarthrobacter
+ESV_100136,0,Actinomycetota,Acidimicrobiia,Microtrichales,Ilumatobacteraceae,Incertae Sedis
+ESV_100654,5.078260869565217e-4,Planctomycetota,Phycisphaerae,Phycisphaerales,Phycisphaeraceae,SM1A02
+ESV_100682,0,Planctomycetota,Phycisphaerae,Phycisphaerales,Phycisphaeraceae,SM1A02
+ESV_10078,0,Bacteroidota,Bacteroidia,Cytophagales,Microscillaceae,Incertae Sedis
+ESV_101102,0,Planctomycetota,Planctomycetes,Pirellulales,Pirellulaceae,Incertae Sedis
+ESV_1012,0,Pseudomonadota,Alphaproteobacteria,Hyphomicrobiales,Methyloligellaceae,Incertae Sedis
+ESV_101212,0,Planctomycetota,Planctomycetes,Pirellulales,Pirellulaceae,Pir4 lineage
+ESV_101244,0,Bacteroidota,Bacteroidia,Chitinophagales,Chitinophagaceae,Dinghuibacter
+ESV_10134,0,Pseudomonadota,Alphaproteobacteria,Hyphomicrobiales,Methyloligellaceae,Incertae Sedis
+ESV_101366,0,Actinomycetota,Acidimicrobiia,Microtrichales,Iamiaceae,Aquihabitans
+ESV_1014,0,Pseudomonadota,Alphaproteobacteria,Hyphomicrobiales,Xanthobacteraceae,Incertae Sedis
+ESV_101440,0,Pseudomonadota,Alphaproteobacteria,Hyphomicrobiales,Xanthobacteraceae,Pseudorhodoplanes
+ESV_101472,0,Actinomycetota,Acidimicrobiia,Microtrichales,Ilumatobacteraceae,Incertae Sedis
+ESV_10158,0,Actinomycetota,Actinobacteria,Propionibacteriales,Propionibacteriaceae,Microlunatus
+ESV_10166,0,Actinomycetota,Actinobacteria,Micrococcales,Intrasporangiaceae,Humibacillus
+ESV_1018,0,Pseudomonadota,Alphaproteobacteria,Hyphomicrobiales,Beijerinckiaceae,Microvirga
+ESV_101848,0,Pseudomonadota,Gammaproteobacteria,Burkholderiales,B1-7BS,Incertae Sedis
+ESV_101862,0,Actinomycetota,Actinobacteria,Micrococcales,Intrasporangiaceae,Terrabacter
+ESV_102,-1.7910408432147574e-4,Pseudomonadota,Alphaproteobacteria,Hyphomicrobiales,Xanthobacteraceae,Incertae Sedis
+ESV_1020,0,Nitrospirota,Nitrospiria,Nitrospirales,Nitrospiraceae,Nitrospira
+ESV_10212,0,Pseudomonadota,Alphaproteobacteria,Hyphomicrobiales,Methyloligellaceae,Incertae Sedis
+ESV_10220,0,Actinomycetota,Thermoleophilia,Gaiellales,Gaiellaceae,Gaiella
+ESV_10224,0,Actinomycetota,Thermoleophilia,Gaiellales,Gaiellaceae,Gaiella
+ESV_102292,0,Pseudomonadota,Gammaproteobacteria,Burkholderiales,B1-7BS,Incertae Sedis
+ESV_102306,0,Actinomycetota,Actinobacteria,Micrococcales,Intrasporangiaceae,Terrabacter
+ESV_1024,-1.7391304347826096e-4,Pseudomonadota,Alphaproteobacteria,Hyphomicrobiales,Methyloligellaceae,Incertae Sedis
+ESV_10248,0,Acidobacteriota,Vicinamibacteria,Vicinamibacterales,Incertae Sedis,Incertae Sedis
+ESV_102486,0,Actinomycetota,Thermoleophilia,Gaiellales,Gaiellaceae,Gaiella
+ESV_102494,0,Pseudomonadota,Alphaproteobacteria,Hyphomicrobiales,Beijerinckiaceae,Microvirga
+ESV_102528,0,Actinomycetota,Thermoleophilia,Gaiellales,Incertae Sedis,Incertae Sedis
+ESV_102552,0,Bacteroidota,Bacteroidia,Bacteroidales,Bacteroidaceae,Bacteroides
+ESV_102554,0,Thermodesulfobacteriota,Desulfuromonadia,Desulfuromonadales,Desulfuromonadaceae,Desulfuromonas
+ESV_102636,0,Actinomycetota,Thermoleophilia,Gaiellales,Gaiellaceae,Gaiella
+ESV_102702,0,Actinomycetota,Actinobacteria,Propionibacteriales,Propionibacteriaceae,Microlunatus
+ESV_1028,0,Pseudomonadota,Alphaproteobacteria,Hyphomicrobiales,Methyloligellaceae,Incertae Sedis
+ESV_10280,0,Pseudomonadota,Alphaproteobacteria,Hyphomicrobiales,Hyphomicrobiaceae,Pedomicrobium
+ESV_102852,0,Acidobacteriota,Blastocatellia,Blastocatellales,Blastocatellaceae,Stenotrophobacter
+ESV_102878,0,Pseudomonadota,Alphaproteobacteria,Hyphomicrobiales,Rhizobiaceae,Aminobacter
+ESV_102882,0,Pseudomonadota,Gammaproteobacteria,Burkholderiales,Comamonadaceae,Xylophilus
+ESV_102982,0,Actinomycetota,Actinobacteria,Mycobacteriales,Mycobacteriaceae,Mycobacterium
+ESV_103052,0,Actinomycetota,Thermoleophilia,Gaiellales,Incertae Sedis,Incertae Sedis
+ESV_103180,0,Actinomycetota,Thermoleophilia,Gaiellales,Incertae Sedis,Incertae Sedis
+ESV_103252,0,Acidobacteriota,Holophagae,Subgroup 7,Incertae Sedis,Incertae Sedis
+ESV_103468,0,Acidobacteriota,Vicinamibacteria,Subgroup 17,Incertae Sedis,Incertae Sedis

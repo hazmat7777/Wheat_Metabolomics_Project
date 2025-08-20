@@ -5,14 +5,14 @@ library(dplyr)
 
 # load microbial metabarcoding data
 
-ps_16S_highdiv_absolute <- readRDS("../data/ps_16S_highdiv_absolute.rds")
+ps_16S_highdiv_absolute <- readRDS("../data/metabarcoding/ps_16S_highdiv_absolute.rds")
 
 sample_names(ps_16S_highdiv_absolute)
 
 ps_16S_rf <- prune_samples(!is.na(sample_data(ps_16S_highdiv_absolute)$gt), ps_16S_highdiv_absolute) # remove samples without GT data
 ps_16S_rf <- prune_taxa(taxa_sums(ps_16S_rf) > 0, ps_16S_rf) #removes missing taxa
 
-ps_16S_rf
+sample_names(ps_16S_rf)
 
 #===================================================
 # THE PLAN

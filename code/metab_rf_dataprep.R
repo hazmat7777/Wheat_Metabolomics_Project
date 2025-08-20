@@ -36,16 +36,18 @@ plot(density(log(fk_metabolom_gt_t[,78]), na.rm = TRUE), main = "Density") # doe
 metab_numeric <- fk_metabolom_gt_t[, sapply(fk_metabolom_gt_t, is.numeric)] # Select only numeric metabolite columns
 metab_scaled <- as.data.frame(log(metab_numeric + 1e-6)) # log transform
 # THINK ABOUT Z SCALING IT HERE
+
 non_numeric <- fk_metabolom_gt_t[, !sapply(fk_metabolom_gt_t, is.numeric)] 
-fk_metabolom_gt_scaled <- cbind(non_numeric, metab_scaled)# add back non-numeric columns
+fk_metabolom_gt_scaled <- cbind(non_numeric, metab_scaled)# add back non-numeric columns.
 colnames(fk_metabolom_gt_scaled)[1]<- "gt"
 View(fk_metabolom_gt_scaled)
 
 # Convert gt to numeric (0/1) if not already
-boost_data <- fk_metabolom_gt_t %>%
+boost_data <- fk_metabolom_gt_scaled %>%
   mutate(gt = ifelse(gt == "GT_present", 1,
               ifelse(gt == "GT_absent", 0, gt))) %>%
   mutate(gt = as.numeric(gt))
 
 # save RDS
-saveRDS(boost_data, "../data/fk_metabolomics_boost_data.RDS")
+saveRDS(boost_data, "../data/fk_metabolomics_boost_data2.RDS")
+saveRDS(fk_metabolom_gt_scaled, "../data/metabolomics/fk_metabolomics_gt_logged.RDS")

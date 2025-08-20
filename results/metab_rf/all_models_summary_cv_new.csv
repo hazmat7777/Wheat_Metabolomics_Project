@@ -1,0 +1,5 @@
+"Model","Mean_Accuracy","SD_Accuracy","Mean_Balanced_Accuracy","SD_Balanced_Accuracy","N_Features"
+"GBM",0.524,0.125,0.535,0.093,676
+"ElasticNet",0.51,0.108,0.496,0.009,676
+"RandomForest",0.505,0.108,0.526,0.071,676
+"Ensemble",0.533,0.114,0.546,0.061,676

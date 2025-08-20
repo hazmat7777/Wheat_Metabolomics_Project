@@ -1,0 +1,5 @@
+"","Model","AIC","Delta_AIC","Pseudo_R2"
+"1","Combined Protection",71.72,0,0.218
+"2","Metabolite Only",81.75,10.03,0.102
+"3","Microbe Only",73.96,2.24,0.192
+"4","Both Separate",72.64,0.92,0.23

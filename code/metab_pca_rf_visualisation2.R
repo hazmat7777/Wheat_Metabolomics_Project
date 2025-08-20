@@ -477,7 +477,7 @@ create_and_save_all_rf_plots(
 
 # Check what was saved
 cat("Saved files:\n")
-list.files("results", pattern = "*.png")
+list.files("../results/metab_rf", pattern = "*.png")
 
 # Now this will work properly!
 create_and_save_all_rf_plots(

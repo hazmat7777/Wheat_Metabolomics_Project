@@ -1,0 +1,7 @@
+"Model","Taxonomic_Level","N_Features","AUC","AUC_CI","Balanced_Accuracy"
+"RandomForest_Genus","Genus",1457,"0.622 ± 0.028","(0.567-0.677)","0.498 ± 0.046"
+"RandomForest_Family","Family",543,"0.609 ± 0.042","(0.526-0.692)","0.518 ± 0.038"
+"RandomForest_Phylum","Phylum",38,"0.591 ± 0.025","(0.542-0.639)","0.444 ± 0.057"
+"RandomForest_Class","Class",83,"0.529 ± 0.045","(0.441-0.617)","0.448 ± 0.044"
+"RandomForest_Order","Order",304,"0.504 ± 0.07","(0.368-0.641)","0.537 ± 0.032"
+"RandomForest_Pseudomonas_Bacillus","Selected_ASVs",926,"0.449 ± 0.021","(0.407-0.491)","0.5 ± 0"

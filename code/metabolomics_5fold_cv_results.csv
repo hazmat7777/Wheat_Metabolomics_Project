@@ -1,0 +1,4 @@
+"Model","Method","N_Features","Mean_Accuracy","SD_Accuracy","Min_Accuracy","Max_Accuracy","Mean_Balanced_Accuracy","SD_Balanced_Accuracy","Min_Balanced_Accuracy","Max_Balanced_Accuracy","Mean_Kappa","SD_Kappa","Mean_AUC","SD_AUC"
+"Properly_Tuned_RF","5fold_CV","676",0.521,0.077,0.4,0.6,0.52,0.086,0.384,0.607,0.037,0.173,0.542,0.085
+"Improved_Antifungal_RF","5fold_CV","33",0.503,0.189,0.286,0.733,0.5,0.184,0.286,0.714,0.003,0.372,0.581,0.109
+"Boruta_RF","5fold_CV","3.2 ± 1.5 (1-5)",0.439,0.064,0.333,0.5,0.441,0.072,0.321,0.5,-0.119,0.147,0.545,0.045

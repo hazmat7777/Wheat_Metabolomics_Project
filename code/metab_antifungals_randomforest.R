@@ -27,13 +27,44 @@ antifungal_metabolites <- c(
   "trans.3.Hydroxycinnamic.acid"  # [267] - related to caffeic acid
 )
 
+interesting_compounds <- c("Salicylate", "ISOLEUCINE", "Ornithine", "THREONINE", 
+"ASPARTATE", "NICOTINAMIDE", "TRYPTOPHAN", "VALINE", "succinic acid", 
+"LACTIC ACID", "Linalool", "Geranyl acetate", "trans-Nerolidol", "Nerol", 
+"FERULATE", "CAFFEATE", "caffeine", "Cinnamic acid - 40.0 eV", 
+"Vanillic acid", "BETAINE", "CHOLINE", "SARCOSINE", "N,N-Dimethylglycine", 
+"3-HYDROXYBENZOATE", "4-HYDROXYBENZOATE", "Sinapic acid", 
+"Hydroquinone", "TYROSINE", "trans-3-Hydroxycinnamic acid", 
+"3,4-DIHYDROXYBENZOATE", "COUMARIN", "L-Arginine", "L-Proline", 
+"PHENYLALANINE",   "Salicylate",                    # [1] - keratolytic antifungal
+  "berberine",                     # [630] - broad spectrum antifungal
+  "VANILLIN",                     # [339] - demonstrated antifungal activity
+  "caffeine",                     # [485] - direct antifungal vs Candida
+  "COUMARIN",                     # [674] - antifungal vs dermatophytes
+  "TAURINE",                      # [619] - antifungal properties
+  "NICOTINAMIDE",                 # [81] - B-vitamin with antifungal activity
+  "THYMIDINE",                    # [214] - nucleoside with antifungal properties
+  "QUINOLINE",                    # [498] - scaffold in antifungal medications
+  "Usnic.acid",                   # [573] - lichen metabolite, antifungal
+  "Chrysin",                      # [477] - flavonoid with antifungal activity
+  "CAFFEATE",                     # [426] - phenolic with antifungal properties
+  "trans.3.Hydroxycinnamic.acid"  # [267] - related to caffeic acid
+  )
+
+# load data
+fk_metabolom_gt_t <- readRDS("../data/metabolomics/fk_metabolomics_gt_logged.RDS")
+View(fk_metabolom_gt_t)
+# save it as a csv
+write.csv(fk_metabolom_gt_t, "../data/metabolomics/fk_metabolomics_gt_noNA.csv", row.names = FALSE)
+
+
 # Check which antifungal metabolites are present in your dataset
-available_antifungal <- intersect(antifungal_metabolites, names(fk_metabolom_gt_t))
+available_antifungal <- intersect(interesting_compounds, colnames(fk_metabolom_gt_t))
+available_antifungal
 
 # ===============================
 # DATA PREPARATION WITH ANTIFUNGAL SUBSET
 # ===============================
-
+head(colnames(fk_metabolom_gt_t))
 # Create subset with only antifungal metabolites + target variable
 antifungal_data <- fk_metabolom_gt_t[, c(available_antifungal, "gt")]
 
@@ -43,8 +74,6 @@ antifungal_data[predictor_cols] <- lapply(antifungal_data[predictor_cols], funct
 as.numeric(as.character(x))
 })
 
-# Scale the data
-antifungal_data[predictor_cols] <- scale(antifungal_data[predictor_cols])
 
 # ===============================
 # TRAIN/TEST SPLIT

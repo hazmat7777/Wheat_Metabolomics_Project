@@ -495,6 +495,14 @@ interpret_pca_loadings(pca_results, top_n = 10)
 # RANDOM FOREST SPECIFIC ANALYSIS - POSITIVE CLASS = 1
 ###########################################################################
 
+
+
+
+
+
+
+
+
 cat("\n=== RANDOM FOREST SPECIFIC ANALYSIS ===\n")
 
 # Extract RF model and test data
@@ -527,3 +535,173 @@ cat(sprintf("Sensitivity (True Positive Rate): %.3f\n", rf_cm$byClass['Sensitivi
 cat(sprintf("Specificity (True Negative Rate): %.3f\n", rf_cm$byClass['Specificity']))
 cat(sprintf("Precision (Positive Predictive Value): %.3f\n", rf_cm$byClass['Pos Pred Value']))
 cat(sprintf("F1-Score: %.3f\n", rf_cm$byClass['F1']))
+
+
+
+##### seeing what's in PC10
+# Extract metabolites contributing to PC10
+loadings <- pca_results$loadings
+
+# Get PC10 loadings
+pc10_loadings <- loadings[, 10]
+names(pc10_loadings) <- rownames(loadings)
+
+# Sort by absolute value to see most important contributors
+pc10_abs <- abs(pc10_loadings)
+pc10_sorted <- sort(pc10_abs, decreasing = TRUE)
+
+cat("=== METABOLITES IN PC10 ===\n")
+cat("Top 20 metabolites contributing to PC10:\n")
+cat("(+ = positive loading, - = negative loading)\n\n")
+
+# Save top 20 as an object
+pc10_top20 <- data.frame(
+  Rank = 1:min(20, length(pc10_sorted)),
+  Metabolite = names(pc10_sorted)[1:min(20, length(pc10_sorted))],
+  Loading = pc10_loadings[names(pc10_sorted)[1:min(20, length(pc10_sorted))]],
+  Abs_Loading = pc10_sorted[1:min(20, length(pc10_sorted))]
+)
+
+saveRDS(pc10_top20, "../data/metabolomics/pc10_top20_metabolites.RDS")
+
+# Extract metabolites contributing to PC10
+loadings <- pca_results$loadings
+
+# Get PC10 loadings
+pc10_loadings <- loadings[, 10]
+names(pc10_loadings) <- rownames(loadings)
+
+# Sort by absolute value to see most important contributors
+pc10_abs <- abs(pc10_loadings)
+pc10_sorted <- sort(pc10_abs, decreasing = TRUE)
+
+cat("=== METABOLITES IN PC10 ===\n")
+cat("Top 20 metabolites contributing to PC10:\n")
+cat("(+ = positive loading, - = negative loading)\n\n")
+
+# Function to clean metabolite names
+clean_metabolite_names <- function(names) {
+  cleaned <- names
+  
+  # Remove common prefixes
+  cleaned <- gsub("^X\\d+\\.", "", cleaned)  # Remove X12., X2., X1. etc.
+  cleaned <- gsub("^Massbank\\.[^.]+\\.", "", cleaned)  # Remove Massbank.PR307721.
+  cleaned <- gsub("^Spectral\\.Match\\.to\\.", "", cleaned)  # Remove Spectral.Match.to.
+  cleaned <- gsub("\\.from\\.NIST14$", "", cleaned)  # Remove .from.NIST14
+  cleaned <- gsub("^possibly\\.+", "", cleaned)  # Remove possibly...
+  cleaned <- gsub("\\.see\\..*$", "", cleaned)  # Remove .see.jones.Nat.Metabolism.2021
+  
+  # Replace dots and underscores with spaces
+  cleaned <- gsub("\\.", " ", cleaned)
+  cleaned <- gsub("_", " ", cleaned)
+  
+  # Remove extra spaces
+  cleaned <- gsub("\\s+", " ", cleaned)
+  cleaned <- trimws(cleaned)
+  
+  # Capitalize first letter of each word
+  cleaned <- tools::toTitleCase(tolower(cleaned))
+  
+  return(cleaned)
+}
+
+
+# Save top 20 as an object
+pc10_top20 <- data.frame(
+  Rank = 1:min(20, length(pc10_sorted)),
+  Metabolite_Original = names(pc10_sorted)[1:min(20, length(pc10_sorted))],
+  Metabolite_Clean = clean_metabolite_names(names(pc10_sorted)[1:min(20, length(pc10_sorted))]),
+  Loading = pc10_loadings[names(pc10_sorted)[1:min(20, length(pc10_sorted))]],
+  Abs_Loading = pc10_sorted[1:min(20, length(pc10_sorted))]
+)
+
+# Print the results with clean names
+cat("=== PC10 TOP 20 METABOLITES (CLEANED NAMES) ===\n")
+for(i in 1:nrow(pc10_top20)) {
+  cat(sprintf("%2d. %s: %+.4f\n", pc10_top20$Rank[i], pc10_top20$Metabolite_Clean[i], pc10_top20$Loading[i]))
+}
+
+pc10_summary_df <- data.frame(
+  Rank = pc10_top20$Rank,
+  Metabolite = pc10_top20$Metabolite_Clean,
+  Loading = round(pc10_top20$Loading, 4),
+  stringsAsFactors = FALSE
+)
+View(pc10_summary_df)
+# Save the cleaned top 20 metabolites
+saveRDS(pc10_top20, "../data/metabolomics/pc10_top20_metabolites_cleaned.RDS")
+write.csv(pc10_summary_df, "../results/metab_rf/pc10_top20_metabolites_cleaned.csv", row.names = FALSE)
+# Show comparison of original vs cleaned names
+cat("\n=== NAME CLEANING COMPARISON ===\n")
+comparison <- pc10_top20[1:20, c("Metabolite_Original", "Metabolite_Clean")]
+print(comparison)
+
+# Show all metabolites if you want the complete list
+cat("\n=== ALL METABOLITES IN PC10 ===\n")
+pc10_all <- data.frame(
+  Metabolite = names(pc10_loadings),
+  Loading = pc10_loadings,
+  Abs_Loading = abs(pc10_loadings)
+)
+pc10_all <- pc10_all[order(-pc10_all$Abs_Loading), ]
+print(pc10_all)
+
+
+
+# Print the results
+for(i in 1:nrow(pc10_top20)) {
+  cat(sprintf("%2d. %s: %+.4f\n", pc10_top20$Rank[i], pc10_top20$Metabolite[i], pc10_top20$Loading[i]))
+}
+
+# Show all metabolites if you want the complete list
+cat("\n=== ALL METABOLITES IN PC10 ===\n")
+pc10_all <- data.frame(
+  Metabolite = names(pc10_loadings),
+  Loading = pc10_loadings,
+  Abs_Loading = abs(pc10_loadings)
+)
+pc10_all <- pc10_all[order(-pc10_all$Abs_Loading), ]
+print(pc10_all)
+
+top10_pc10<- names(pc10_sorted)[1:9]
+
+top10_pc10
+
+# boxplot of this versus GT
+library(ggplot2)
+library(reshape2) 
+# Melt the data for ggplot
+
+
+library(reshape2)
+library(ggplot2)
+
+View(fk_metabolom_gt_scaled)
+
+# do boxplots of top 10 metabolites in PC10 vs GT
+library(reshape2)  # or library(tidyr)
+
+# Subset your data
+top10_data <- fk_metabolom_gt_scaled[, c("gt", top10_pc10)]
+
+# Rename columns with cleaned names (excluding 'gt')
+cleaned_names <- clean_metabolite_names(colnames(top10_data)[-1])
+colnames(top10_data)[-1] <- cleaned_names
+
+# Melt using the cleaned names as measure.vars
+melted_data <- melt(top10_data, id.vars = "gt", measure.vars = cleaned_names)
+
+# Make sure gt is factor
+melted_data$gt <- factor(melted_data$gt)
+
+# Plot
+pc10_metabs_plot <- ggplot(melted_data, aes(x = gt, y = value, fill = gt)) +
+  geom_boxplot(position = position_dodge(width = 0.75)) +
+  facet_wrap(~ variable, scales = "free") +
+  labs(x = "GT Status",
+       y = "Metabolite Value") +
+  theme_bw() +
+  theme(legend.position = "none")
+
+ggsave("../results/metab_rf/pc10_top10_metabolites_boxplots.png", 
+       plot = pc10_metabs_plot, width = 12, height = 8)

@@ -1,0 +1,2 @@
+"Model","Dataset","N_Features","Method","num.trees","mtry","min.node.size","sample.fraction","splitrule","Mean_Accuracy","SD_Accuracy","Min_Accuracy","Max_Accuracy"
+"RandomForest_Pseudomonas_Bacillus","Feature_Selected_2Genera",926,"Caret_GridSearch",2000,3,1,0.632,"gini",0.554,0.022,0.538,0.583

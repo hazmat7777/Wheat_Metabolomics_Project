@@ -1,0 +1,7 @@
+"Model","Dataset","Taxonomic_Level","N_Features","Method","num.trees","mtry","min.node.size","sample.fraction","splitrule","Mean_Accuracy","SD_Accuracy","SE_Accuracy","Mean_Balanced_Accuracy","SD_Balanced_Accuracy","SE_Balanced_Accuracy","Mean_AUC","SD_AUC","SE_AUC","AUC_CI_Lower","AUC_CI_Upper"
+"RandomForest_Genus","TaxAgg_Genus","Genus",1457,"Caret_GridSearch",1000,5,1,0.632,"extratrees",0.535,0.097,0.043,0.498,0.103,0.046,0.622,0.062,0.028,0.567,0.677
+"RandomForest_Family","TaxAgg_Family","Family",543,"Caret_GridSearch",1000,12,3,0.632,"extratrees",0.552,0.076,0.034,0.518,0.086,0.038,0.609,0.094,0.042,0.526,0.692
+"RandomForest_Phylum","TaxAgg_Phylum","Phylum",38,"Caret_GridSearch",1000,3,3,0.632,"gini",0.473,0.12,0.054,0.444,0.127,0.057,0.591,0.055,0.025,0.542,0.639
+"RandomForest_Class","TaxAgg_Class","Class",83,"Caret_GridSearch",1000,5,5,0.632,"gini",0.474,0.085,0.038,0.448,0.099,0.044,0.529,0.1,0.045,0.441,0.617
+"RandomForest_Order","TaxAgg_Order","Order",304,"Caret_GridSearch",1000,5,5,0.632,"extratrees",0.568,0.05,0.022,0.537,0.072,0.032,0.504,0.156,0.07,0.368,0.641
+"RandomForest_Pseudomonas_Bacillus","Feature_Selected_2Genera","Selected_ASVs",926,"Caret_GridSearch",1000,3,5,0.632,"extratrees",0.554,0.022,0.01,0.5,0,0,0.449,0.048,0.021,0.407,0.491
