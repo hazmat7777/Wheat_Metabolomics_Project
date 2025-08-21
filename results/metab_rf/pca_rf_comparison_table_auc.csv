@@ -1,2 +1,0 @@
-"Model","N_Features","AUC","AUC_CI","Balanced_Accuracy","Var_Explained"
-"PCA_RF",10,"0.572 ± 0.021","(0.53-0.613)","0.504 ± 0.03","60.3% ± 0.7%"

@@ -1,3 +1,0 @@
-"Model","Method","N_Features","AUC","AUC_SE","AUC_SD","CI_Lower","CI_Upper","Features","Feature_Selection_Method","CV_Iterations"
-"Stability_Logistic","Individual metabolites",3,0.759,0.02,0.141,0.72,0.798,"Haematommic.acid; X3.4.Dihydroxybenzaldehyde; Ribonolactone","Stability-based (≥50% selection)",50
-"Protective_Score","Combined score",3,0.78,0.022,0.159,0.736,0.824,"Haematommic.acid; X3.4.Dihydroxybenzaldehyde; Ribonolactone","Stability-based (≥50% selection)",50

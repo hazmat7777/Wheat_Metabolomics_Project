@@ -1,4 +1,0 @@
-"Model","Method","N_Features","Accuracy","Balanced_Accuracy","Sensitivity","Specificity","Precision","F1_Score","Kappa","AUC"
-"Antifungal_RF","Selected_Compounds",33,0.381,0.377,0.455,0.3,0.417,0.435,-0.247,0.755
-"Basic_RF","Default_Parameters",676,0.333,0.341,0.182,0.5,0.286,0.222,-0.312,0.759
-"Tuned_RF","CV_Tuned_mtry451",676,0.333,0.341,0.182,0.5,0.286,0.222,-0.312,0.791

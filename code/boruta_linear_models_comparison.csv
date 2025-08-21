@@ -1,5 +1,0 @@
-"Model","Mean_Balanced_Accuracy","SD_Balanced_Accuracy","Mean_AUC","SD_AUC","N_Successful_Folds"
-"Logistic Regression",0.452,0.079,0.591,0.138,5
-"Linear Discriminant Analysis",0.48,0.117,0.583,0.141,5
-"Metabolite Score",0.491,0.097,0.602,0.042,5
-"Random Forest",0.425,0.08,0.583,0.027,5

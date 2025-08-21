@@ -1,2 +1,0 @@
-"Model","Method","N_Features","AUC","AUC_SE","AUC_SD","AUC_CI_Lower","AUC_CI_Upper","Accuracy","Accuracy_SE","Accuracy_SD","Balanced_Accuracy","Balanced_Accuracy_SE","Balanced_Accuracy_SD","Features","Feature_Selection_Method","CV_Iterations"
-"Microbiome_Stability_GLM","Stability-based genus selection",3,0.838,0.023,0.162,0.793,0.882,0.733,0.026,0.186,0.712,0.033,0.232,"Acidiferrimicrobium; Incertae Sedis.317; Mariniblastus","Stability-based (≥50% selection)",50

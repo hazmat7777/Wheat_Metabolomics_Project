@@ -1,5 +1,0 @@
-"Model","Mean_Accuracy","SD_Accuracy","SE_Accuracy","Mean_Balanced_Accuracy","SD_Balanced_Accuracy","SE_Balanced_Accuracy","Mean_AUC","SD_AUC","SE_AUC","AUC_CI_Lower","AUC_CI_Upper","N_Features"
-"GBM",0.524,0.125,0.04,0.535,0.093,0.029,0.612,0.102,0.032,0.549,0.676,676
-"ElasticNet",0.51,0.108,0.034,0.496,0.009,0.003,0.512,0.026,0.008,0.496,0.528,676
-"RandomForest",0.505,0.108,0.034,0.526,0.071,0.022,0.567,0.09,0.028,0.512,0.623,676
-"Ensemble",0.533,0.114,0.036,0.546,0.061,0.019,0.565,0.07,0.022,0.521,0.609,676
