@@ -61,27 +61,103 @@ merged_df_combinedprotection <- merged_df_protection %>%
   select(sample_name, metab_protection_scaled, microb_protection_scaled, combined_protection, gt.x)
 
 
-# GLMs (so far have only combined one)
+merged_df_newnames <- merged_df  %>%
+  rename(`Paracoccaceae` = `Incertae Sedis.317`) %>%
+  rename(`gt` = `gt.x`)
 
+str(merged_df_newnames)
+
+
+## GLMs (so far have only combined one)
+
+# all metabolites
+glm_metab <- glm(as.factor(gt) ~ Haematommic.acid + X3.4.Dihydroxybenzaldehyde + Ribonolactone,
+                 data = merged_df_newnames,
+                 family = binomial)
+
+summary(glm_metab)
+
+# check variable inflation factors
+library(car)
+vif_values <- vif(glm_metab)
+vif_values
+
+# just the most important metabolite
+glm_34 <- glm(as.factor(gt) ~ X3.4.Dihydroxybenzaldehyde,
+                 data = merged_df_newnames,
+                 family = binomial)
+
+summary(glm_34) # higher AIC
+
+# all genera
+glm_microb <- glm(as.factor(gt) ~  Acidiferrimicrobium + Paracoccaceae + Mariniblastus,
+                  data = merged_df_newnames,
+                  family = binomial)
+
+summary(glm_microb)
+
+glm_acid <- glm(as.factor(gt) ~  Acidiferrimicrobium,
+                  data = merged_df_newnames,
+                  family = binomial)
+
+summary(glm_acid)
+
+# metabs combined
+str(merged_df_combinedprotection)
+glm_metab_combined <- glm(gt.x ~ metab_protection_scaled,
+                    data = merged_df_combinedprotection, 
+                    family = binomial)
+
+summary(glm_metab_combined)
+
+#microbs combined
+glm_microb_combined <- glm(gt.x ~ microb_protection_scaled,
+                    data = merged_df_combinedprotection, 
+                    family = binomial)
+
+summary(glm_microb_combined)
+
+# combining metabs and microbs
+glm_combined_adding <- glm(gt.x ~ microb_protection_scaled + metab_protection_scaled, 
+                    data = merged_df_combinedprotection, 
+                    family = binomial)
+
+summary(glm_combined_adding)
+vif(glm_combined_adding)
 
 glm_combined <- glm(gt.x ~ combined_protection, 
                     data = merged_df_combinedprotection, 
                     family = binomial)
 
-
-
 summary(glm_combined)
+
+## everything added
+glm_everything <- glm(as.factor(gt) ~  Acidiferrimicrobium + Paracoccaceae + Mariniblastus + Haematommic.acid + X3.4.Dihydroxybenzaldehyde + Ribonolactone,
+                  data = merged_df_newnames,
+                  family = binomial)
+
+
+summary(glm_everything)
+
+# pseudo-r2
+nagelkerke_all_r2 <- PseudoR2(glm_everything, which = "Nagelkerke")
+nagelkerke_all_r2
+nagelkerke_metab_r2 <- PseudoR2(glm_metab, which = "Nagelkerke")
+nagelkerke_metab_r2
+nagelkerke_microb_r2 <- PseudoR2(glm_microb, which = "Nagelkerke")
+nagelkerke_microb_r2
+
 
 # Calculate pseudo-R² values
 #install.packages("DescTools")
 library(DescTools)
 
 # McFadden's pseudo-R²
-mcfadden_r2 <- PseudoR2(glm_combined, which = "McFadden")
-
+mcfadden_r2 <- PseudoR2(glm_everything, which = "McFadden")
+mcfadden_r2
 # Nagelkerke's pseudo-R²  
 nagelkerke_r2 <- PseudoR2(glm_combined, which = "Nagelkerke")
-
+nagelkerke_r2
 # Or calculate McFadden's manually:
 null_deviance <- glm_combined$null.deviance
 residual_deviance <- glm_combined$deviance
